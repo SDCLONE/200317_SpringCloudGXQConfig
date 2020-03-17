@@ -1,0 +1,38 @@
+server:
+  port: 7003
+eureka:
+  client:
+    serviceUrl:
+      #defaultZone: http://localhost:3000/eureka   #eureka服务端提供的注册地址 参考服务端配置的这个路径
+      defaultZone: http://eureka1:3001/eureka,http://eureka2:3002/eureka,http://eureka3:3003/eureka
+      #往eureka集群中任何一个注册，自动同步,但是建议都写避免由于其他原因单个无法注册成功
+  instance:
+    instance-id: zuul-server-2 #此实例注册到eureka服务端的唯一的实例ID
+    prefer-ip-address: true #是否显示IP地址
+    #eureka客户需要多长时间发送心跳给eureka服务器，表明它仍然活着,默认为30 秒 (与下面配置的单位都是秒)
+    leaseRenewalIntervalInSeconds: 10
+    #Eureka服务器在接收到实例的最后一次发出的心跳后，需要等待多久才可以将此实例删除，默认为90秒
+    leaseExpirationDurationInSeconds: 30
+
+spring:
+  application:
+    name: zuul-server #此实例注册到eureka服务端的name
+
+# 网关使用
+# http://localhost:网关端口号/服务名称/api
+# 不推荐这样用，会暴露服务名称
+
+# 网关路由
+
+zuul:
+  routes:
+    goods:  # 自己定义的名称
+      serviceId: provide-goods  #对应的服务名称
+      path: /goods/**   #/*单级   /**多级
+    order:
+      serviceId: provide-orders
+      path: /order/**
+    consumer:
+      serviceId: hystrix-feign-client
+      path: /consumer/**      #http://localhost:7000/consumer/**
+  ignored-services: '*'   #禁用以服务名称方式访问所有服务（只可以用path访问）
