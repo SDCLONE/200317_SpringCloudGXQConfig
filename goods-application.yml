@@ -3,8 +3,8 @@
 eureka:
   client:
     serviceUrl:
-      #defaultZone: http://localhost:3000/eureka   #eureka服务端提供的注册地址 参考服务端配置的这个路径
-      defaultZone: http://localhost:8078/eureka
+      defaultZone: http://localhost:3000/eureka   #eureka服务端提供的注册地址 参考服务端配置的这个路径
+      #defaultZone: http://localhost:8078/eureka  #最好写本地的eureka注册中心地址
       #往eureka集群中任何一个注册，自动同步,但是建议都写避免由于其他原因单个无法注册成功
 
   instance:
