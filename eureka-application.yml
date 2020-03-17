@@ -1,0 +1,15 @@
+server:
+  port: 8078
+eureka:
+  server:
+    enable-self-preservation: true   #是否关闭自我保护机制
+    eviction-interval-timer-in-ms: 4000 #设置清理间隔
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false # 不把自己注册上去
+    fetch-registry: false # 不从服务端获取信息
+    service-url:  # 微服务要注册的地址
+      # 本质就是http://localhost:8078/eureka
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+
